@@ -1,7 +1,7 @@
 ---------------------------
 query getAllUsers{
   users{
-    id
+    _id
     firstName
     lastName
     email
@@ -9,8 +9,8 @@ query getAllUsers{
 }
 ---------------------------
 query getUserById{
-  user(id:"23131"){
-    id
+  user(_id:"23131"){
+    _id
     firstName
     lastName
     email
@@ -34,8 +34,8 @@ query getQuotebyUser{
 
 ----------------------------
 query getUserById($userid:ID!){
-  user(id:$userid){
-    id
+  user(_id:$userid){
+    _id
     firstName
     lastName
     email
