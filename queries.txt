@@ -30,3 +30,18 @@ query getQuotebyUser{
     by
   }
 }
+
+
+----------------------------
+query getUserById($userid:ID!){
+  user(id:$userid){
+    id
+    firstName
+    lastName
+    email
+    quotes{
+      name
+      by
+     }
+  }
+}
