@@ -67,5 +67,23 @@ mutation SigninUser($userSignin:UserSigninInput!){
   }
 }
 
+-------------------------------------------------------
+
+
+mutation createQuote{
+  createQuote(name:"What goes around comes back around")
+}
 
 ---------------------------------------------------------
+
+
+mutation UpdateQuote {
+  updateQuote(_id: "64ad0ef96df3757e771653e6", name: "Updated quote text") {
+    name
+    by
+  }
+}
+
+
+---------------------------------------------------------
+

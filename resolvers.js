@@ -11,13 +11,13 @@ const Quote = mongoose.model("Quote",quoteSchema);
 
 const resolvers ={
     Query:{
-        users: ()=> users,
-        user: (parent,args)=> users.find((user)=> user._id==args._id),
-        quotes: ()=> quotes,
-        iquote: (parent,args)=> quotes.filter((quote)=> quote.by==args.by), 
+        users: async ()=> await User.find({}),
+        user: async (parent,{_id})=> await User.findOne({_id}),
+        quotes: async ()=> await Quote.find({}).populate("by","_id firstName") ,
+        iquote: async (parent,{by})=> await Quote.find({by}),
     },
     User:{
-        quotes: (user)=> quotes.filter((quote)=> quote.by == user._id)
+        quotes: async (user)=> await Quote.find({by:user._id})
     },
     Mutation:{
         signupUser: async (_,{userNew})=>{
@@ -62,6 +62,23 @@ const resolvers ={
              await newQuote.save()
              return "Quote post successful"
         },
+        updateQuote: async (_, { _id, name, by }) => {
+            try {
+              const updatedQuote = await Quote.findByIdAndUpdate(_id, { name, by }, { new: true });
+              return updatedQuote;
+            } catch (error) {
+              throw new Error('Failed to update book.');
+            }
+          },
+
+          deleteQuote: async (_, { _id }) => {
+            try {
+              const deletedQuote = await Quote.findByIdAndDelete(_id);
+              return deletedQuote;
+            } catch (error) {
+              throw new Error('Failed to delete book.');
+            }
+          },
 
     }
 }
