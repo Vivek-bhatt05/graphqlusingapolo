@@ -2,6 +2,8 @@ import { quotes, users } from './fakedb.js';
 import bcrypt from 'bcrypt'
 import mongoose from 'mongoose';
 import { userSchema } from './models/user.js';
+import { key } from './config.js';
+import jwt from 'jsonwebtoken'
 
 const User = mongoose.model("User",userSchema);
 
@@ -29,7 +31,25 @@ const resolvers ={
                 password : hashedPassword
             })
             return await newUser.save()
+        },
+
+        signinUser: async (_,{userSignin})=>{
+           const user = await User.findOne({email : userSignin.email})
+           if(!user){
+            throw new Error('No User Found');
+           }
+          const isMatched = await bcrypt.compare(userSignin.password,user.password);
+
+          if(!isMatched){
+            throw new Error("Email or Password is wrong")
+          }
+
+          const token = jwt.sign({userId : user._id},key)
+
+          return {token}
         }
+
+
     }
 }
 

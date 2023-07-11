@@ -8,6 +8,7 @@ type Query {
     quotes : [Quote]
     iquote(by:ID!) : [Quote]
 }
+
 type User{
     _id: ID!
     firstName: String
@@ -16,13 +17,19 @@ type User{
     password: String
     quotes: [Quote]
 }
+
 type Quote{
     name: String!
     by: ID
 }
 
+type Token{
+    token: String!
+}
+
 type Mutation{
-    signupUser(userNew:UserInput!):User
+    signupUser(userNew:UserInput!) : User
+    signinUser(userSignin:UserSigninInput!) : Token
 }
 
 input UserInput{
@@ -32,6 +39,9 @@ input UserInput{
     password:String!
 }
 
-
+input UserSigninInput{
+    email:String!
+    password:String!
+}
 `
 export default typeDefs;

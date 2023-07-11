@@ -45,3 +45,19 @@ query getUserById($userid:ID!){
      }
   }
 }
+
+Mutation
+--------------------------------------------------------
+
+mutation createUser($userNew:UserInput!){
+  user:signupUser(userNew:$userNew){
+    _id
+    firstName
+    lastName
+    email
+    password
+  }
+}
+
+--------------------------------------------------------
+
