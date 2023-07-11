@@ -61,3 +61,11 @@ mutation createUser($userNew:UserInput!){
 
 --------------------------------------------------------
 
+mutation SigninUser($userSignin:UserSigninInput!){
+  user:signinUser(userSignin:$userSignin){
+    token
+  }
+}
+
+
+---------------------------------------------------------

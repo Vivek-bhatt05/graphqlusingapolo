@@ -2,10 +2,12 @@ import { quotes, users } from './fakedb.js';
 import bcrypt from 'bcrypt'
 import mongoose from 'mongoose';
 import { userSchema } from './models/user.js';
+import { quoteSchema } from './models/quotes.js';
 import { key } from './config.js';
 import jwt from 'jsonwebtoken'
 
 const User = mongoose.model("User",userSchema);
+const Quote = mongoose.model("Quote",quoteSchema);
 
 const resolvers ={
     Query:{
@@ -47,8 +49,19 @@ const resolvers ={
           const token = jwt.sign({userId : user._id},key)
 
           return {token}
-        }
+        },
 
+        createQuote: async (_,{name},{userId})=>{
+            if(!userId){
+                throw new Error('Must Login');
+            }
+            const newQuote = new Quote({
+                name,
+                by:userId
+            })
+             await newQuote.save()
+             return "Quote post successful"
+        },
 
     }
 }

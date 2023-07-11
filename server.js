@@ -1,9 +1,10 @@
 import {ApolloServer} from 'apollo-server';
 import {ApolloServerPluginLandingPageGraphQLPlayground} from 'apollo-server-core';
 import mongoose from 'mongoose';
-import { mongoURL } from './config.js';
+import { key, mongoURL } from './config.js';
 import resolvers from './resolvers.js';
 import typeDefs from './schema.js';
+import jwt from 'jsonwebtoken';
 
 mongoose.connect(mongoURL)
 
@@ -15,10 +16,20 @@ mongoose.connection.on("error",(err)=>{
     console.log("error in connecting",err)
 })
 
+const context=({req})=>{
+    const {authorization}= req.headers;
+
+    if(authorization){
+        const {userId}= jwt.verify(authorization,key)
+        return {userId};
+    }
+}
+
 
 const server = new ApolloServer({
     typeDefs,
     resolvers,
+    context,
     plugins:[
         ApolloServerPluginLandingPageGraphQLPlayground
     ]

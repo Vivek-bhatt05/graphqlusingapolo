@@ -30,6 +30,7 @@ type Token{
 type Mutation{
     signupUser(userNew:UserInput!) : User
     signinUser(userSignin:UserSigninInput!) : Token
+    createQuote(name:String!):String
 }
 
 input UserInput{
