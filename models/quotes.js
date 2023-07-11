@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const quoteSchema = new mongoose.Schema({
+export const quoteSchema = new mongoose.Schema({
     name:{
         type:String,
         required:true
