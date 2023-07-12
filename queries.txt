@@ -23,6 +23,18 @@ query getAllQuotes{
     by  
   }
 }
+
+-------------------------
+
+  query getAllQuotes{
+    quotes{
+      name
+      by{
+        _id
+        firstName
+        }
+      }
+    }
 -----------------------------
 query getQuotebyUser{
   iquote(by:"4232"){
