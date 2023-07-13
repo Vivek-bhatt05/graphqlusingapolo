@@ -12,6 +12,15 @@ const Quote = mongoose.model("Quote",quoteSchema);
 const resolvers ={
     Query:{
         users: async ()=> await User.find({}),
+        // users: async (_parent, args, _context, _info) => {
+        //     if (args.limit) {
+        //       const start = args.offset;
+        //       const end = args.limit;
+        //       return [...User.find({})].slice(start, end);
+        //     } else {
+        //       return [...User.find()];
+        //     }
+        //   },
         user: async (parent,{_id})=> await User.findOne({_id}),
         quotes: async ()=> await Quote.find({}).populate("by","_id firstName") ,
         iquote: async (parent,{by})=> await Quote.find({by}),
